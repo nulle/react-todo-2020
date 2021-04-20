@@ -3,10 +3,12 @@ import Logo from "../assets/logo.png";
 import ToDoItem from "./ToDoItem";
 import "./ToDo.css";
 
+import ToDoModel from "../models/to-do";
+
 const ToDo = () => {
   const [list, setList] = useState([
-    { id: 1, text: "clean the house" },
-    { id: 2, text: "buy milk" },
+    new ToDoModel(1, "clean the house"),
+    new ToDoModel(2, "buy milk"),
   ]);
   const [toDo, setToDo] = useState("");
   const [showError, setShowError] = useState(false);
@@ -31,7 +33,7 @@ const ToDo = () => {
       return;
     }
     const newId = generateId();
-    const newToDo = { id: newId, text: toDo };
+    const newToDo = new ToDoModel(newId, toDo);
     setList([...list, newToDo]);
     setToDo("");
   };
