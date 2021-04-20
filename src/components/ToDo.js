@@ -49,7 +49,12 @@ const ToDo = () => {
   };
 
   const deleteItem = (id) => {
-    setList(list.filter((item) => item.id !== id));
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        setList(list.filter((item) => item.id !== id));
+        resolve();
+      }, 3000);
+    });
   };
 
   return (
