@@ -59,9 +59,8 @@ const ToDo = () => {
 
   const shuffleTitles = () => {
     list.forEach((toDo) => {
-      toDo.text = toDo.text.split('').sort(() => (Math.random() > 0.5) ? 1 : -1).join('');
+      toDo.shuffleTitle();
     });
-    setList(Array.from(list)); // IS THIS THE RIGHT WAY??
   }
 
   return (
@@ -88,7 +87,7 @@ const ToDo = () => {
           </button>
         </div>
         <div className="ToDo-ErrorContainer">{showError && <p>Please enter a todo!</p>}</div>
-        <button type="button" class="ToDo-Shuffle" onClick={shuffleTitles}>Shuffle</button>
+        <button type="button" className="ToDo-Shuffle" onClick={shuffleTitles}>Shuffle</button>
 
       </div>
     </div>
