@@ -1,17 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Logo from "../assets/logo.png";
 import ToDoItem from "./ToDoItem";
 import "./ToDo.css";
 
 import ToDoModel from "../models/to-do";
 
-const ToDo = () => {
+const ToDo = ({ loggerService }) => {
   const [list, setList] = useState([
     new ToDoModel(1, "clean the house"),
     new ToDoModel(2, "buy milk"),
   ]);
   const [toDo, setToDo] = useState("");
   const [showError, setShowError] = useState(false);
+  const [loggedCount, setLoggedCount] = useState(0);
 
   const generateId = () => {
     if (list && list.length) {
@@ -36,6 +37,7 @@ const ToDo = () => {
     const newToDo = new ToDoModel(newId, toDo);
     setList([...list, newToDo]);
     setToDo("");
+    loggerService.log("Created item");
   };
 
   const handleKeyPress = (e) => {
@@ -53,6 +55,7 @@ const ToDo = () => {
       setTimeout(() => {
         setList(list.filter((item) => item.id !== id));
         resolve();
+        loggerService.log("Deleted item");
       }, 3000);
     });
   };
@@ -62,6 +65,13 @@ const ToDo = () => {
       toDo.shuffleTitle();
     });
   }
+
+  useEffect(() => {
+    const subscription = loggerService.loggedCount$.subscribe((t) => {
+      setLoggedCount(t);
+    });
+    return () => subscription.unsubscribe()
+  });
 
   return (
     <div className="ToDo">
@@ -88,7 +98,7 @@ const ToDo = () => {
         </div>
         <div className="ToDo-ErrorContainer">{showError && <p>Please enter a todo!</p>}</div>
         <button type="button" className="ToDo-Shuffle" onClick={shuffleTitles}>Shuffle</button>
-
+        <div>{loggerService.loggedCountText}</div>
       </div>
     </div>
   );
