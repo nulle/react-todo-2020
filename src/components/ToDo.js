@@ -57,6 +57,13 @@ const ToDo = () => {
     });
   };
 
+  const shuffleTitles = () => {
+    list.forEach((toDo) => {
+      toDo.text = toDo.text.split('').sort(() => (Math.random() > 0.5) ? 1 : -1).join('');
+    });
+    setList(Array.from(list)); // IS THIS THE RIGHT WAY??
+  }
+
   return (
     <div className="ToDo">
       <img className="Logo" src={Logo} alt="React logo" />
@@ -81,6 +88,8 @@ const ToDo = () => {
           </button>
         </div>
         <div className="ToDo-ErrorContainer">{showError && <p>Please enter a todo!</p>}</div>
+        <button type="button" class="ToDo-Shuffle" onClick={shuffleTitles}>Shuffle</button>
+
       </div>
     </div>
   );
